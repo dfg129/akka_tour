@@ -17,6 +17,7 @@ object AkkaLook1 extends App {
   val alice = system.actorOf(Props(new Person), "alice")
   
   alice ! Pint
+
   
   system.shutdown()
 }
