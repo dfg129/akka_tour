@@ -2,22 +2,23 @@ package com.mobileomega.akka
 
 import akka.actor.{ActorSystem, ActorLogging, Actor, Props}
 
-case object Pint
+case class Ticket(quantity: Int)
+case class EmptyPint(number: Int)
+case class FullPint(number: Int)
 
-class Person extends Actor with ActorLogging {
-    def receive = {
-    case Pint => log.info("Thanks for the pint")
-    case _ => log.info("received unknown message")
-  }
-}
 
 object AkkaLook1 extends App {
   val system = ActorSystem("actor-look-1")
   
+  val zed = system.actorOf(Props(new BarTender), "zed")
+  
   val alice = system.actorOf(Props(new Person), "alice")
+  val bob = system.actorOf(Props(new Person), "bob")
+  val charlie = system.actorOf(Props(new Person), "charlie")
   
-  alice ! Pint
-
+  zed.tell(Ticket(2), alice)
+  zed.tell(Ticket(3), bob)
+  zed.tell(Ticket(1), charlie)
   
-  system.shutdown()
+  system.awaitTermination()
 }
