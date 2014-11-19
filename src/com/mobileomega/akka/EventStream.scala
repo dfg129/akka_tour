@@ -7,7 +7,7 @@ sealed class Subscriber(f: (String, Any) => Unit) extends Actor {
 }
 
 object EventStream {
-  val system = ActorSystem("event_system")
+  val system = ActorSystem("eventsystem")
   
   def subscribe(f: (String, Any) => Option[Unit], name: String) = {
     val props = Props(classOf[Subscriber], f)
